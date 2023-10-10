@@ -18,6 +18,4 @@ public class AppUser {
     @Column(name = "roles", nullable = false)
     private String Roles;
     private String password;
-
-
 }
