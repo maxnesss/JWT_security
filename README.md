@@ -8,6 +8,7 @@ with use of PreAuthorize annotation
 ### Need to change
  1. Application properties - to set up database
  2. Constants
+- use env variables or somthing similar
 ### Registration
 - /api/v1/auth/register
 - RegisterUserDTO
@@ -25,4 +26,4 @@ with use of PreAuthorize annotation
   - /api/v1/users/
 - admin
   - /api/v1/users/
-note: need to use the @PreAuthorize annotation
+- note: need to use the @PreAuthorize annotation
