@@ -1,6 +1,6 @@
 package com.example.security.full.security.security.config;
 
-import com.example.security.full.security.security.UserSecurity.dao.JpaUserDetailsService;
+import com.example.security.full.security.security.users.dao.JpaUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

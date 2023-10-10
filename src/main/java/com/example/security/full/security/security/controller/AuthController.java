@@ -1,11 +1,12 @@
 package com.example.security.full.security.security.controller;
 
-import com.example.security.full.security.security.UserSecurity.dao.JpaUserDetailsService;
-import com.example.security.full.security.security.UserSecurity.model.UserSecurity;
+import com.example.security.full.security.security.users.dao.JpaUserDetailsService;
+import com.example.security.full.security.security.users.model.UserSecurity;
 import com.example.security.full.security.models.dto.AuthenticationRequestDTO;
 import com.example.security.full.security.security.service.AuthService;
 import com.example.security.full.security.security.config.Constants;
-import com.example.security.full.security.security.config.JwtUtils;
+import com.example.security.full.security.security.utils.CookieUtils;
+import com.example.security.full.security.security.utils.JwtUtils;
 import com.example.security.full.security.models.dto.RegisterUserDTO;
 import com.example.security.full.security.services.UsersService;
 import jakarta.servlet.http.Cookie;
@@ -28,11 +29,8 @@ import java.util.ArrayList;
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;
-
     private final JpaUserDetailsService jpaUserDetailsService;
-
     private final AuthService authService;
-
     private final JwtUtils jwtUtils;
     private final UsersService usersService;
 
@@ -45,17 +43,13 @@ public class AuthController {
             final UserDetails user = jpaUserDetailsService.loadUserByUsername(request.getEmail());
             if (user != null) {
                 String jwt = jwtUtils.generateToken(user);
-                Cookie cookie = new Cookie("jwt", jwt);
-                cookie.setMaxAge((int) (Constants.EXPIRATION_TIME/1000)); // expires in 10 days
-                cookie.setHttpOnly(true);
-                cookie.setPath("/");
+                Cookie cookie = CookieUtils.generateCookie(jwt);
                 response.addCookie(cookie);
-                return ResponseEntity.ok(jwt);
+                return ResponseEntity.ok("Login successful");
             }
             return ResponseEntity.status(400).body("Error authenticating");
         } catch (Exception e) {
-            System.out.println(e);
-            return ResponseEntity.status(400).body("" + e.getMessage());
+            return ResponseEntity.status(400).body(e.getMessage());
         }
     }
 

@@ -1,6 +1,7 @@
 package com.example.security.full.security.security.config;
 
-import com.example.security.full.security.security.UserSecurity.dao.JpaUserDetailsService;
+import com.example.security.full.security.security.users.dao.JpaUserDetailsService;
+import com.example.security.full.security.security.utils.JwtUtils;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;

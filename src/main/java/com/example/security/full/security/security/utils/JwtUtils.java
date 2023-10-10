@@ -1,5 +1,6 @@
-package com.example.security.full.security.security.config;
+package com.example.security.full.security.security.utils;
 
+import com.example.security.full.security.security.config.Constants;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

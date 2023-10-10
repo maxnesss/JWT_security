@@ -1,6 +1,6 @@
-package com.example.security.full.security.security.UserSecurity.dao;
+package com.example.security.full.security.security.users.dao;
 
-import com.example.security.full.security.security.UserSecurity.model.UserSecurity;
+import com.example.security.full.security.security.users.model.UserSecurity;
 import com.example.security.full.security.repositaries.UsersRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;

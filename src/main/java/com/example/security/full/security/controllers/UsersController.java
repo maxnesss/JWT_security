@@ -11,17 +11,15 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/users")
+@RequestMapping("/api/v1/users/")
 public class UsersController {
 
     private final UsersService usersService;
-
-    @PreAuthorize(value = "hasRole('ROLE_ADMIN')")
-    @GetMapping("")
-    public List<Users> GetUsers() {
-        return usersService.GetAllUsers();
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
+    @GetMapping("hello")
+    public String hello() {
+        return "Hello User";
     }
-
 
 
 }
