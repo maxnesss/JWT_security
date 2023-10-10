@@ -1,6 +1,6 @@
-package com.example.security.full.security.UserSecurity.model;
+package com.example.security.full.security.security.UserSecurity.model;
 
-import com.example.security.full.security.users.model.Users;
+import com.example.security.full.security.models.Users;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,7 +15,6 @@ public class UserSecurity implements UserDetails {
     public UserSecurity(Users users) {
         this.users = users;
     }
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Arrays.stream(users.getRoles().split(","))

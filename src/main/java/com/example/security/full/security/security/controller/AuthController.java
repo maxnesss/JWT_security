@@ -1,11 +1,13 @@
-package com.example.security.full.security.auth.controller;
+package com.example.security.full.security.security.controller;
 
-import com.example.security.full.security.UserSecurity.dao.JpaUserDetailsService;
-import com.example.security.full.security.UserSecurity.model.UserSecurity;
-import com.example.security.full.security.auth.request.AuthenticationRequest;
-import com.example.security.full.security.auth.service.AuthService;
-import com.example.security.full.security.config.JwtUtils;
-import com.example.security.full.security.users.Requests.UsersRequest;
+import com.example.security.full.security.security.UserSecurity.dao.JpaUserDetailsService;
+import com.example.security.full.security.security.UserSecurity.model.UserSecurity;
+import com.example.security.full.security.models.dto.AuthenticationRequestDTO;
+import com.example.security.full.security.security.service.AuthService;
+import com.example.security.full.security.security.config.Constants;
+import com.example.security.full.security.security.config.JwtUtils;
+import com.example.security.full.security.models.dto.RegisterUserDTO;
+import com.example.security.full.security.services.UsersService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -32,9 +34,10 @@ public class AuthController {
     private final AuthService authService;
 
     private final JwtUtils jwtUtils;
+    private final UsersService usersService;
 
     @PostMapping("/authenticate")
-    public ResponseEntity<String> authenticate(@RequestBody AuthenticationRequest request, HttpServletResponse response) {
+    public ResponseEntity<String> authenticate(@RequestBody AuthenticationRequestDTO request, HttpServletResponse response) {
         try {
             authenticationManager
                     .authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword(),
@@ -43,10 +46,9 @@ public class AuthController {
             if (user != null) {
                 String jwt = jwtUtils.generateToken(user);
                 Cookie cookie = new Cookie("jwt", jwt);
-                cookie.setMaxAge(7 * 24 * 60 * 60); // expires in 7 days
-//                cookie.setSecure(true);
+                cookie.setMaxAge((int) (Constants.EXPIRATION_TIME/1000)); // expires in 10 days
                 cookie.setHttpOnly(true);
-                cookie.setPath("/"); // Global
+                cookie.setPath("/");
                 response.addCookie(cookie);
                 return ResponseEntity.ok(jwt);
             }
@@ -58,8 +60,12 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<UserSecurity> register(@RequestBody UsersRequest user) throws Exception {
-        return ResponseEntity.ok(authService.AddUser(user).map(UserSecurity::new).orElseThrow(() -> new Exception("Unknown")));
+    public ResponseEntity<?> register(@RequestBody RegisterUserDTO user) throws Exception {
+        if (usersService.userExists(user.getEmail())) {
+            return ResponseEntity.status(400).body("User with this email already exists");
+        }
+        authService.AddUser(user).map(UserSecurity::new).orElseThrow(() -> new Exception("Unknown"));
+        return ResponseEntity.ok("User registered successfully");
     }
 
 }

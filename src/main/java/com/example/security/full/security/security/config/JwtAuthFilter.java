@@ -1,6 +1,6 @@
-package com.example.security.full.security.config;
+package com.example.security.full.security.security.config;
 
-import com.example.security.full.security.UserSecurity.dao.JpaUserDetailsService;
+import com.example.security.full.security.security.UserSecurity.dao.JpaUserDetailsService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
@@ -26,20 +26,16 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-//        final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
         final String userEmail;
         String jwtToken = null;
 
-
-//        if (authHeader == null || !authHeader.startsWith("Bearer")) {
-//            filterChain.doFilter(request, response);
-//            return;
-//        }
-
+        if (request.getCookies() == null) {
+            filterChain.doFilter(request, response);
+            return;
+        }
         for (Cookie cookie : request.getCookies()) {
             if (cookie.getName().equals("jwt")) {
                 jwtToken = cookie.getValue();
-//                System.out.println(cookie.getValue());
             }
         }
         if (jwtToken == null) {
@@ -47,7 +43,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             return;
         }
 
-//        jwtToken = authHeader.substring(7);
         userEmail = jwtUtils.extractUsername(jwtToken);
         if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = jpaUserDetailsService.loadUserByUsername(userEmail);
