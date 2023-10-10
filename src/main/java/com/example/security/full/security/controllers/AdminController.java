@@ -1,6 +1,6 @@
 package com.example.security.full.security.controllers;
 
-import com.example.security.full.security.models.Users;
+import com.example.security.full.security.models.AppUser;
 import com.example.security.full.security.services.UsersService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +23,7 @@ public class AdminController {
     }
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("users")
-    public List<Users> GetUsers() {
+    public List<AppUser> GetUsers() {
         return usersService.GetAllUsers();
     }
 

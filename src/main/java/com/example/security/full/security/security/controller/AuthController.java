@@ -1,13 +1,12 @@
 package com.example.security.full.security.security.controller;
 
+import com.example.security.full.security.models.dto.AuthenticationRequestDTO;
+import com.example.security.full.security.models.dto.RegisterUserDTO;
+import com.example.security.full.security.security.service.AuthService;
 import com.example.security.full.security.security.users.dao.JpaUserDetailsService;
 import com.example.security.full.security.security.users.model.UserSecurity;
-import com.example.security.full.security.models.dto.AuthenticationRequestDTO;
-import com.example.security.full.security.security.service.AuthService;
-import com.example.security.full.security.security.config.Constants;
 import com.example.security.full.security.security.utils.CookieUtils;
 import com.example.security.full.security.security.utils.JwtUtils;
-import com.example.security.full.security.models.dto.RegisterUserDTO;
 import com.example.security.full.security.services.UsersService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
