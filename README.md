@@ -18,3 +18,11 @@ with use of PreAuthorize annotation
 - String
   - ROLE_ADMIN
   - ROLE_USER
+### Endpoints
+- public
+  - /api/v1/public/
+- users
+  - /api/v1/users/
+- admin
+  - /api/v1/users/
+note: need to use the @PreAuthorize annotation
